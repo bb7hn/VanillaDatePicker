@@ -50,7 +50,10 @@
             border-radius: var(--bs-btn-border-radius);
             background-color: var(--bs-btn-bg);
             transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-            width: calc(100% / 7);
+            text-align: center;
+            margin-left: 1px;
+            margin-right: 1px;
+            width: calc(100% / 7 - 2px);
         }
         .vanillaDatePicker .btn-full{
             width: auto;
@@ -162,13 +165,14 @@
         let bodyContent = '<div class="d-flex align-items-center justify-content-center mb-1">';
             pickerBody.innerHTML = '';
             let lastIdx=0;
+            
             for(let i=0;i<pickers[index].firstDayOfMonth;i++){
                 bodyContent+=`
                     <button class="day">&nbsp;</button>
                 `;
-                lastIdx=i;
+                lastIdx=i+1;
             }
-            console.log(lastIdx);
+            
             let end = pickers[index].lastDayOfMonth;
             for(let i=0; i<end;i++){
                 if(lastIdx==7){
@@ -185,7 +189,7 @@
             }
             pickerBody.innerHTML = bodyContent;
             let buttons = pickerBody.querySelectorAll('button.selectBtn');
-            console.log('btns',buttons);
+
             buttons.forEach(btn=>{
                 btn.addEventListener('click',(e)=>{
                     buttons.forEach(b=>{
@@ -193,7 +197,7 @@
                     });
                     e.currentTarget.classList.add('active');
                     pickers[index].selectedDay = e.currentTarget.innerHTML;
-                    console.log(pickers);
+                    
                     let input = datePicker.parentNode.querySelector('input[type="text"]');
                     let hiddenInput = datePicker.parentNode.querySelector('input[type="hidden"]');
                     input.value = `${pickers[index].selectedDay} ${monthNames[pickers[index].selectedMonth]} ${pickers[index].selectedYear}`;
@@ -201,6 +205,7 @@
                     datePicker.classList.remove('active');
                 });
             });
+            console.log(pickers[index].firstDayOfMonth);
     }
     const initVanillaPicker = (datePicker,selectedMonth=new Date().getMonth(),selectedYear=new Date().getFullYear()) =>{
             let index = 0;
@@ -334,7 +339,7 @@
             });
             input.style.setProperty('display','none');
             input.parentNode.insertBefore(container, input.nextSibling);
-            console.log(newInput.getBoundingClientRect().top+newInput.clientHeight);
+            /* console.log(newInput.getBoundingClientRect().top+newInput.clientHeight); */
             vanilla.style.setProperty('top',(newInput.getBoundingClientRect().top+newInput.clientHeight+5)+'px');
             let now = new Date();
             initVanillaPicker(vanilla);
@@ -347,7 +352,7 @@
     document.addEventListener('DOMContentLoaded',()=>{
         document.documentElement.innerHTML+=`<style>${vanillaStyle}</style>`;
         initInputs();
-        console.log(pickers);
+        /* console.log(pickers); */
     });
     /* 
     const firstDay = new Date(now.getFullYear() - 1, now.getMonth(), 1);

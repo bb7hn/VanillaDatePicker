@@ -168,9 +168,9 @@
                 `;
                 lastIdx=i;
             }
+            console.log(lastIdx);
             let end = pickers[index].lastDayOfMonth;
             for(let i=0; i<end;i++){
-                lastIdx++;
                 if(lastIdx==7){
                     bodyContent+=`
                         </div>
@@ -181,6 +181,7 @@
                 bodyContent+=`
                     <button class="btn selectBtn${pickers[index].selectedDay===i+1?' active bg-light':''}">${i+1}</button>
                 `;
+                lastIdx++;
             }
             pickerBody.innerHTML = bodyContent;
             let buttons = pickerBody.querySelectorAll('button.selectBtn');

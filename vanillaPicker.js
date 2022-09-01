@@ -312,13 +312,13 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center justify-content-center mb-1 ">
-                    <button class="day">Pt</button>
-                    <button class="day">Sl</button>
-                    <button class="day">Çr</button>
-                    <button class="day">Pr</button>
-                    <button class="day">Cm</button>
-                    <button class="day">Ct</button>
-                    <button class="day">Pz</button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Pt</span></button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Sl</span></button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Çr</span></button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Pr</span></button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Cm</span></button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Ct</span></button>
+                    <button class="day d-flex align-items-center justify-content-center"><span>Pz</span></button>
                 </div>
                 <div class="pickerBody">
                     

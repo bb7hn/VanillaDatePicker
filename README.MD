@@ -3,6 +3,7 @@
 Vanilla Date Picker is pure js date picker powered by Bootstrap (v5.2.0).
 At the moment it is not stable and **only supports *TURKISH***. I'm still developing it.
 ## How To Use (Installation and usage)
+### [See The Demo](https://bb7hn.github.io/VanillaDatePicker/)
 ### Quick Start
 - [Download](https://github.com/bb7hn/VanillaDatePicker/archive/refs/heads/main.zip) or clone this repo :
 ```bash

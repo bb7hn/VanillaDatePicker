@@ -266,6 +266,7 @@
             let newInput = document.createElement('input');
             newInput.type = 'text';
             newInput.setAttribute('class',input.getAttribute('class'));
+            newInput.setAttribute('placeholder',input.getAttribute('placeholder'));
             newInput.addEventListener('click',()=>{
                 vanilla.classList.add('active');
             });

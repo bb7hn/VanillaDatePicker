@@ -131,7 +131,7 @@
         top: 2px
         } 
     `;
-    const pickers=[]
+    const pickers={}
     const monthNames = [
         "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
         "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
@@ -201,14 +201,15 @@
                     let input = datePicker.parentNode.querySelector('input[type="text"]');
                     let hiddenInput = datePicker.parentNode.querySelector('input[type="hidden"]');
                     input.value = `${pickers[index].selectedDay} ${monthNames[pickers[index].selectedMonth]} ${pickers[index].selectedYear}`;
-                    hiddenInput.value = `${pickers[index].selectedYear}-${pickers[index].selectedMonth<10?'0'+pickers[index].selectedMonth:pickers[index].selectedMonth}-${pickers[index].selectedDay}`;
+                    hiddenInput.value = `${pickers[index].selectedYear}-${(pickers[index].selectedMonth+1)<10?'0'+(pickers[index].selectedMonth+1):pickers[index].selectedMonth}-${pickers[index].selectedDay}`;
+                    var event = new Event('change');
+                    hiddenInput.dispatchEvent(event);
                     datePicker.classList.remove('active');
                 });
             });
             console.log(pickers[index].firstDayOfMonth);
     }
-    const initVanillaPicker = (datePicker,selectedMonth=new Date().getMonth(),selectedYear=new Date().getFullYear()) =>{
-            let index = 0;
+    const initVanillaPicker = (datePicker,index,selectedMonth=new Date().getMonth(),selectedYear=new Date().getFullYear()) =>{
             (pickers.length?index = pickers.length-1:0);
             
             let pickerBody = datePicker.querySelector('.pickerBody');
@@ -272,17 +273,26 @@
             let newInput = document.createElement('input');
             newInput.type = 'text';
             newInput.setAttribute('class',input.getAttribute('class'));
-            newInput.setAttribute('placeholder',input.getAttribute('placeholder'));
+            newInput.setAttribute('placeholder',input.getAttribute('placeholder')?input.getAttribute('placeholder'):'');
+            newInput.setAttribute('style',input.getAttribute('style'));
+            
             newInput.addEventListener('click',()=>{
                 vanilla.classList.add('active');
+                
+            });
+            let labels = document.querySelectorAll(`label[for="${input.id}"]`);
+            labels.forEach(label=>{
+                label.addEventListener('click',()=>{
+                    vanilla.classList.add('active');
+                    console.log(label);
+                });
             });
             newInput.setAttribute('readonly','');
             let hiddenInput = document.createElement('input');
             hiddenInput.type = 'hidden';
             hiddenInput.name = input.name;
             hiddenInput.id = input.id;
-            
-            input.removeAttribute('id');
+            /* input.removeAttribute('id'); */
             let vanilla = document.createElement('div');
             vanilla.classList.add('rounded');
             vanilla.classList.add('p-1');
@@ -291,6 +301,7 @@
             vanilla.classList.add('mt-1');
             vanilla.classList.add('shadow');
             vanilla.classList.add('position-absolute');
+            vanilla.classList.add('bg-light');
             
             vanilla.innerHTML=`
                 <div class="row my-1">
@@ -330,19 +341,38 @@
             
             document.addEventListener('click', function handleClickOutsideBox(event) {
                 // 👇️ the element the user clicked
-                if (!container.contains(event.target)) {
+                let bool = false;
+                
+                let hiddenInput = container.querySelector('input[type="hidden"]');
+                if(hiddenInput){
+                    event.path.forEach((elem,key)=>{
+                        try {
+                            if(elem.tagName.toUpperCase() === "LABEL" && elem.getAttribute('for') === hiddenInput.id){
+                                bool = true;
+                            }
+                        } catch (error) {
+                            
+                        }
+                    });
+                }
+                
+                
+                if (!container.contains(event.target) && !bool) {
                     vanilla.classList.remove('active');
                 }
                 else{
                     newInput.focus();
                 }
             });
-            input.style.setProperty('display','none');
+            
             input.parentNode.insertBefore(container, input.nextSibling);
             /* console.log(newInput.getBoundingClientRect().top+newInput.clientHeight); */
-            vanilla.style.setProperty('top',(newInput.getBoundingClientRect().top+newInput.clientHeight+5)+'px');
-            let now = new Date();
-            initVanillaPicker(vanilla);
+            vanilla.style.setProperty('top',(newInput.clientHeight+5)+'px');
+            vanilla.style.setProperty('z-index','9999');
+            /* let now = new Date(); */
+            
+            initVanillaPicker(vanilla,input.id);
+            input.remove();
         });
     }
     const insertAfter = (newNode, referenceNode) => {
@@ -350,8 +380,10 @@
     }
     //init 
     document.addEventListener('DOMContentLoaded',()=>{
+        window.pickersInitCompleted = false;
         document.documentElement.innerHTML+=`<style>${vanillaStyle}</style>`;
         initInputs();
+        window.pickersInitCompleted = true;
         /* console.log(pickers); */
     });
     /* 

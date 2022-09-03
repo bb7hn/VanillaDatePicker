@@ -197,12 +197,12 @@
                     });
                     e.currentTarget.classList.add('active');
                     
-                    pickers[index].selectedDay = e.currentTarget.innerHTML.length<2?'0'+e.currentTarget.innerHTML:e.currentTarget.innerHTML;
-                    console.log(pickers[index]);
+                    pickers[index].selectedDay = e.currentTarget.innerHTML;
+                    /* console.log(pickers[index]); */
                     let input = datePicker.parentNode.querySelector('input[type="text"]');
                     let hiddenInput = datePicker.parentNode.querySelector('input[type="hidden"]');
                     input.value = `${pickers[index].selectedDay} ${monthNames[pickers[index].selectedMonth]} ${pickers[index].selectedYear}`;
-                    hiddenInput.value = `${pickers[index].selectedYear}-${(pickers[index].selectedMonth+1)<10?'0'+(pickers[index].selectedMonth+1):pickers[index].selectedMonth}-${(pickers[index].selectedDay)}`;
+                    hiddenInput.value = `${pickers[index].selectedYear}-${padStart(2,pickers[index].selectedMonth+1)}-${padStart(2,pickers[index].selectedDay)}`;
                     var event = new Event('change');
                     hiddenInput.dispatchEvent(event);
                     datePicker.classList.remove('active');

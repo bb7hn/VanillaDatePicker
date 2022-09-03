@@ -202,7 +202,7 @@
                     let input = datePicker.parentNode.querySelector('input[type="text"]');
                     let hiddenInput = datePicker.parentNode.querySelector('input[type="hidden"]');
                     input.value = `${pickers[index].selectedDay} ${monthNames[pickers[index].selectedMonth]} ${pickers[index].selectedYear}`;
-                    hiddenInput.value = `${pickers[index].selectedYear}-${String(pickers[index].selectedMonth+1).padStart(2,'0')}-${String(pickers[index].selectedDay).padStart(2,)}`;
+                    hiddenInput.value = `${pickers[index].selectedYear}-${String(pickers[index].selectedMonth+1).padStart(2,'0')}-${String(pickers[index].selectedDay).padStart(2,'0')}`;
                     var event = new Event('change');
                     hiddenInput.dispatchEvent(event);
                     datePicker.classList.remove('active');

@@ -196,18 +196,19 @@
                         b.classList.remove('active');
                     });
                     e.currentTarget.classList.add('active');
+                    
                     pickers[index].selectedDay = e.currentTarget.innerHTML;
                     
                     let input = datePicker.parentNode.querySelector('input[type="text"]');
                     let hiddenInput = datePicker.parentNode.querySelector('input[type="hidden"]');
-                    input.value = `${pickers[index].selectedDay} ${monthNames[pickers[index].selectedMonth]} ${pickers[index].selectedYear}`;
-                    hiddenInput.value = `${pickers[index].selectedYear}-${(pickers[index].selectedMonth+1)<10?'0'+(pickers[index].selectedMonth+1):pickers[index].selectedMonth}-${pickers[index].selectedDay}`;
+                    input.value = `${pickers[index].selectedDay.length} ${monthNames[pickers[index].selectedMonth]} ${pickers[index].selectedYear}`;
+                    hiddenInput.value = `${pickers[index].selectedYear}-${(pickers[index].selectedMonth+1)<10?'0'+(pickers[index].selectedMonth+1):pickers[index].selectedMonth}-${(pickers[index].selectedDay+1)<10?'0'+(pickers[index].selectedDay+1):pickers[index].selectedDay}`;
                     var event = new Event('change');
                     hiddenInput.dispatchEvent(event);
                     datePicker.classList.remove('active');
                 });
             });
-            console.log(pickers[index].firstDayOfMonth);
+            
     }
     const initVanillaPicker = (datePicker,index,selectedMonth=new Date().getMonth(),selectedYear=new Date().getFullYear()) =>{
             (pickers.length?index = pickers.length-1:0);
@@ -279,12 +280,13 @@
             newInput.addEventListener('click',()=>{
                 vanilla.classList.add('active');
                 
+                
             });
             let labels = document.querySelectorAll(`label[for="${input.id}"]`);
             labels.forEach(label=>{
                 label.addEventListener('click',()=>{
                     vanilla.classList.add('active');
-                    console.log(label);
+                    
                 });
             });
             newInput.setAttribute('readonly','');
@@ -345,7 +347,7 @@
                 
                 let hiddenInput = container.querySelector('input[type="hidden"]');
                 if(hiddenInput){
-                    event.path.forEach((elem,key)=>{
+                    event.composedPath().forEach((elem,key)=>{
                         try {
                             if(elem.tagName.toUpperCase() === "LABEL" && elem.getAttribute('for') === hiddenInput.id){
                                 bool = true;
@@ -381,7 +383,7 @@
     //init 
     document.addEventListener('DOMContentLoaded',()=>{
         window.pickersInitCompleted = false;
-        document.documentElement.innerHTML+=`<style>${vanillaStyle}</style>`;
+        document.head.innerHTML+=`<style>${vanillaStyle}</style>`;
         initInputs();
         window.pickersInitCompleted = true;
         /* console.log(pickers); */
